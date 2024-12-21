@@ -38,7 +38,24 @@ const getStorageContext = async (carrier_url) => {
   return null;
 };
 
-app.post("/rates-negotiation-chat", async (req, res) => {
+app.get("/api/carriers", async (req, res) => {
+  const carrier_urls = fs.readdirSync("negotiation-data");
+
+  const carriers = []
+
+  carrier_urls.forEach((carrier_url) => {
+    let carrier_name = carrier_url.split(".")[0]
+    carrier_name = carrier_name.substring(0, 1).toUpperCase() + carrier_name.substring(1)
+
+    carriers.push({
+      label: carrier_name,
+      value: carrier_url,
+    })
+  })
+  return res.status(200).json({ carriers });
+});
+
+app.post("/api/rates-negotiation-chat", async (req, res) => {
   const { carrier_url, chat_history, message } = req.body;
 
   if (!carrier_url || !chat_history || !message) {
