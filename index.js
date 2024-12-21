@@ -113,8 +113,6 @@ app.post("/api/rates-negotiation-chat", async (req, res) => {
     }),
   });
 
-  console.log([systemMessage, ...chat_history]);
-
   const response = await chatEngine.chat({
     chatHistory: [systemMessage, ...chat_history],
     message: message,
