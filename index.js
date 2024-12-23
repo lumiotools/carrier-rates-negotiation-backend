@@ -39,20 +39,8 @@ const getStorageContext = async (carrier_url) => {
 };
 
 app.get("/api/carriers", async (req, res) => {
-  const carrier_urls = fs.readdirSync("negotiation-data");
+  const carriers = JSON.parse(fs.readFileSync("carriers.json", "utf8"));
 
-  const carriers = [];
-
-  carrier_urls.forEach((carrier_url) => {
-    let carrier_name = carrier_url.split(".")[0];
-    carrier_name =
-      carrier_name.substring(0, 1).toUpperCase() + carrier_name.substring(1);
-
-    carriers.push({
-      label: carrier_name,
-      value: carrier_url,
-    });
-  });
   return res.status(200).json({ carriers });
 });
 
